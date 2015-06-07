@@ -27,7 +27,7 @@ main()
 
 void quickSort(int arr[],int left,int right)
 {
-	if(left == right)
+	if(left >= right)
 	return;
 	if(right == left + 1)
 	{
