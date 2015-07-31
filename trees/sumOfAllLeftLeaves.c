@@ -9,24 +9,26 @@ struct BST
 };
 typedef struct BST bst;
 
-int sum;
-bst* insert(bst* root,int);
-void sumOfLeftLeaves(bst *node,int isItLeftChild);
+static int sum = 0;
 
+bst* insert(bst* root,int);
+void inorder(bst*);
+void leftLeavesSum(bst *node);
 main()
 {
 	bst *root = NULL;
 	int data;
-	printf("Enter the number to insert in bst and -1 to exit\n");
 	while(1)
 	{
+		printf("Enter the number to insert in bst and -1 to exit\n");
 		scanf("%d",&data);
 		if(data==-1)
 		break;
 		root = insert(root,data);
 	}
-	 sumOfLeftLeaves(root,0);
-	printf("Sum of left leaves = %d\n",sum);
+	inorder(root);
+	leftLeavesSum(root);
+	printf("%d\n",sum);
 }
 
 bst* insert(bst *root,int data)
@@ -70,44 +72,34 @@ bst* insert(bst *root,int data)
 		
 	}
 }
-
-void sumOfLeftLeaves(bst *node,int isItLeftChild)
+void inorder(bst* node)
 {
-	if(node == NULL)
-		return ;
+	if(node==NULL)
+	return;
 	else
 	{
-		sumOfLeftLeaves(node->left,1);
-		if(isItLeftChild == 1)
-		{
-			sum = sum + node->data;
-			printf("It is left child..data's value = %d\n",node->data);
-		}
-		sumOfLeftLeaves(node->right,0);
+		inorder(node->left);
+		printf("%d\n",node->data);
+		inorder(node->right);
 	}
-	return ;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void leftLeavesSum(bst *node)
+{
+	if(node == NULL)
+		return;
+	else
+	{
+		if(node->left)
+		{
+			if(node->left->right == NULL && node->left->left == NULL)
+			{
+				sum+=node->left->data;
+			}
+			leftLeavesSum(node->left);	
+		}
+		leftLeavesSum(node->right);
+	}
+}
 
 
